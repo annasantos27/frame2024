@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "./modulos/footer";
 import Menu from "./modulos/navbar";
 import { Container } from "react-bootstrap";
 export default function Promessa() {
 const [pao, setpao] = useState("")
-    setTimeout(() => {
+    useEffect(() => { 
+        setTimeout(async() => {
         document.title = "Promessa é dívida";
-        setpao("é dívida");
-    }, 4000);
+        const espera = await mudaPao("é dívida");
+        setpao(espera)
+    }, 4000)
+});
     return <>
         <Menu />
         <Container>
@@ -15,4 +18,10 @@ const [pao, setpao] = useState("")
         </Container>
         <Footer />
     </>
+}
+function mudaPao(texto){
+    return new Promise ((resolva) => 
+        setTimeout(() => {
+        resolva(texto)
+    }, 1000));
 }
