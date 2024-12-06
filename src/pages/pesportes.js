@@ -2,7 +2,7 @@ import { Container, Table,  } from "react-bootstrap";
 import Footer from "./modulos/footer";
 import Menu from "./modulos/navbar";
 
-export default function Pesportes() {
+export default function Pesportes({produtos}) {
     return <>
         <Menu />
         <Container>
@@ -21,17 +21,26 @@ export default function Pesportes() {
                         </tr>
                     </thead>
                     <tbody>
+                        {produtos.map(pingo=>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{pingo.id}</td>
+                            <td>{pingo.titulo}</td>
+                            <td>{pingo.categoria}</td>
+                            <td>{pingo.descricao}</td>
+                            <td>{pingo.preco}</td>
                         </tr>
+                    )}
                     </tbody>
                 </Table>
             </Container>
         </Container>
         <Footer />
     </>
+}
+export async function getServerSideProps() {
+    // Fetch data from external API
+    const res = await fetch('http://localhost:3000/api/produtos/data')
+    const repo = await res.json()
+    // Pass data to the page via props
+    return { props: { produtos: repo } }
 }
